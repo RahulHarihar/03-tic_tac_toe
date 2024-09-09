@@ -1,6 +1,4 @@
-import React from 'react';
 import Board from './Board';
-import { circle_img, cross_img } from '/src/utils/index.js';
 
 const TicTacToe = () => {
   return (
