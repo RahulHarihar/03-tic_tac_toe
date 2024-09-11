@@ -1,32 +1,31 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useState } from 'react';
 import { circle_img, cross_img } from '/src/utils/index.js';
 
-let data = ["", "", "", "", "", "", "", "", "",];
 
-const Board = ({titleRef}) => {
-
+const Board = ({setLock, lock, data, setData, titleRef, box_array}) => {
   let [count, setCount] = useState(0);
-  let[lock, setLock] = useState(false);
 
-  
 
   const toggle = (e, num) => {
     if (lock || data[num]) {
       return;
     }
+    const newData = [...data];
+
     if (count % 2 === 0) {
       e.target.innerHTML = `<img src='${cross_img}' alt="X" class="m-[50px]  rounded-full">`; 
-      data[num] = "x"; 
+      newData[num] = "x"; 
     } else {
       e.target.innerHTML = `<img src='${circle_img}' alt="O" class="m-[50px] rounded-full">`; 
-      data[num] = "o"; 
+      newData[num] = "o"; 
     }
+    setData(newData);
     setCount(count + 1);
-    checkWin();
+    checkWin(newData);
   }
 
-  const checkWin = () => {
+  const checkWin = (data) => {
     if(data[0]===data[1] && data[1]===data[2] && data[2]!=="")
     {
       won(data[2]);
@@ -71,32 +70,24 @@ const Board = ({titleRef}) => {
       if (winner === "x") {
         titleRef.current.innerHTML = `Congratulations: <img src=${cross_img} alt="X" class="p-[20px] h-[80px]"/> Wins`;
       } else {
-        titleRef.current.innerHTML = `Congratulations: <img src=${circle_img} alt="O" class="p-[20px] h-[90px]" Wins/>`;
+        titleRef.current.innerHTML = `Congratulations: <img src=${circle_img} alt="O" class="p-[20px] h-[90px]"/> Wins`;
       }
     }
   }
 
-  const reset = () =>  {
-    setLock(false);
-    data = ["", "", "", "", "", "", "", "", "",];
-    titleRef.current.innerHTML = `Tic Tac Toe in React`;
-  }
-
-
-
   return (
     <div className="grid grid-cols-3  h-[500px] w-[564px] mx-auto">
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540]  border-[#0f1b21] rounded-[12px] cursor-pointer" onClick={(e) => {toggle(e,0)}}></div>
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer" onClick={(e) => {toggle(e,1)}}></div>
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer" onClick={(e) => {toggle(e,2)}}></div>
+      <div ref={box_array[0]} className="flex h-[160px] w-[175px]  bg-[#1f3540]  border-[#0f1b21] rounded-[12px] cursor-pointer" onClick={(e) => {toggle(e,0)}}></div>
+      <div ref={box_array[1]} className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer" onClick={(e) => {toggle(e,1)}}></div>
+      <div ref={box_array[2]} className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer" onClick={(e) => {toggle(e,2)}}></div>
       
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,3)}}></div>
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,4)}}></div>
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,5)}}></div>
+      <div ref={box_array[3]} className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,3)}}></div>
+      <div ref={box_array[4]} className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,4)}}></div>
+      <div ref={box_array[5]} className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,5)}}></div>
 
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,6)}}></div>
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,7)}}></div>
-      <div className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,8)}}></div>
+      <div ref={box_array[6]} className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,6)}}></div>
+      <div ref={box_array[7]} className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,7)}}></div>
+      <div ref={box_array[8]} className="flex h-[160px] w-[175px] bg-[#1f3540] border-[#0f1b21] rounded-[12px] cursor-pointer"onClick={(e) => {toggle(e,8)}}></div>
     </div>
   );
 }
