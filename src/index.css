@@ -6,3 +6,6 @@
 body{
   background: #0f1b21;
 }
+html, body {
+  overflow-x: hidden;
+}
